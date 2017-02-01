@@ -1,0 +1,147 @@
+#==============================================================================
+#                               lauric
+# Date    : 2017-02
+# Author  : helionmelion
+# Version : v2
+# License : Distributed under the terms of GNU GPL version 2 or later
+# 
+# This version is based on:
+# gauges4all :       http://lilaspastia.deviantart.com/art/Gauges4all-620381652
+# conkyrc_compact:   http://lilaspastia.deviantart.com/art/Conky-Compact-514212422
+# conkyrc_discas:    http://lilaspastia.deviantart.com/art/Conkyrc-Discas-v0-1-506156219
+# conkyrc_escamillo: http://lilaspastia.deviantart.com/art/Conky-escamillo-505931673
+# conkyrc_lilas:     http://lilaspastia.deviantart.com/art/Conky-Lilas-501664912
+# conkyrc_seamod:    http://seajey.deviantart.com/art/Conky-Seamod-v0-1-283461046
+# conkyrc_orange:    http://gnome-look.org/content/show.php?content=137503&forumpage=0
+# conkyrc_lunatico:  http://gnome-look.org/content/show.php?content=142884
+#==============================================================================
+
+#Settings
+background yes
+update_interval 0.5
+cpu_avg_samples 1
+net_avg_samples 2
+temperature_unit celsius
+double_buffer yes
+no_buffers yes
+text_buffer_size 2048
+
+#windows specs
+gap_x 0
+gap_y 20
+minimum_size 900
+maximum_width 300
+background yes
+own_window yes
+#own_window_type normal
+own_window_type override
+own_window_title conky
+own_window_transparent no
+own_window_argb_visual yes
+own_window_argb_value 0
+own_window_class conky-semi
+own_window_hints undecorated,skip_taskbar,skip_pager,below
+border_inner_margin 0
+border_outer_margin 0
+alignment tr
+
+#graphical settings
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graph_borders no
+
+#text settings
+override_utf8_locale yes
+use_xft yes
+xftfont caviar dreams:size=10
+xftalpha 0.5
+uppercase no
+
+# Defining colors
+default_color FFFFFF
+# Shades of Gray
+color1 DDDDDD
+color2 AAAAAA
+color3 888888
+# Green
+color4 00ff00
+# SkyBlue
+color5 0088ff
+# Yellow
+color6 ffff00
+# Purple
+color7 ff00ff
+
+# Loading lua script for drawning rings
+lua_load ~/.conky/lauric-rings.lua
+lua_draw_hook_post main
+
+TEXT
+#######Showing uptime and system info
+${color1}${exec date -R}${color3}${hr 1}
+${color3}System ID:${alignr}${color1}$sysname $kernel $nodename${color3}
+Uptime:${alignr}${color1}$uptime${color3}
+########## Showing CPU Graph usage - 8 cpu
+${color5}CPU ${color5}${cpu cpu0}% ${color5}${hr 1}
+${color5}Load Avg ${alignr}60s ${color1}${loadavg 1}  ${color5}5min ${color1}${loadavg 2}  ${color5}15min ${color1}${loadavg 3}
+${color 9999ff}${voffset -5}${cpugraph cpu1 50,140 444444 0088ff -t}${offset 10}${cpugraph cpu5 50,140 444444 0088ff -t} 
+${voffset -10}${color5}CPU1 ${color1}${freq_g cpu1}GHz (${cpu cpu1}%)${alignr}${color5}CPU5 ${color1}${freq_g cpu5}GHz (${cpu cpu5}%)${color3}
+${voffset -10}${cpugraph cpu2 50,140 444444 0088ff -t}${offset 10}${cpugraph cpu6 50,140 444444 0088ff -t} 
+${voffset -10}${color5}CPU2 ${color1}${freq_g cpu2}GHz (${cpu cpu2}%)${alignr}${color5}CPU6 ${color1}${freq_g cpu6}GHz (${cpu cpu6}%)${color3}
+${voffset -10}${cpugraph cpu3 50,140 444444 0088ff -t}${offset 10}${cpugraph cpu7 50,140 444444 0088ff -t} 
+${voffset -10}${color5}CPU3 ${color1}${freq_g cpu3}GHz (${cpu cpu3}%)${alignr}${color5}CPU7 ${color1}${freq_g cpu7}GHz (${cpu cpu7}%)${color3}
+${voffset -10}${cpugraph cpu4 50,140 444444 0088ff -t}${offset 10}${cpugraph cpu8 50,140 444444 0088ff -t} 
+${voffset -10}${color5}CPU4 ${color1}${freq_g cpu4}GHz (${cpu cpu4}%)${alignr}${color5}CPU8 ${color1}${freq_g cpu8}GHz (${cpu cpu8}%)${color3}
+########## Showing TOP 09 CPU-consumers
+${voffset -10}${color2}
+${color 0088ff}${top name 1}${alignr}${top cpu 1}%
+${color 1188ff}${top name 2}${alignr}${top cpu 2}%
+${color 2288ee}${top name 3}${alignr}${top cpu 3}%
+${color 3388dd}${top name 4}${alignr}${top cpu 4}%
+${color 4488cc}${top name 5}${alignr}${top cpu 5}%
+${color 5588bb}${top name 6}${alignr}${top cpu 6}%
+${color 6688aa}${top name 7}${alignr}${top cpu 7}%
+${color 778899}${top name 8}${alignr}${top cpu 8}%
+${color 888888}${top name 9}${alignr}${top cpu 9}%
+${voffset 0}${cpugraph 444444 0088ff -t}
+########Showing memory part with TOP 5
+${color4}MEMORY ${color4}${memperc}% ${color4}${hr 1}
+${color4}Total ${color1}${memmax} ${alignr}${color4}Used ${color1}${mem}
+${color4}Free ${color1}${memfree}${alignr}${color4}Easy Free ${color1}${memeasyfree}
+${color 00ff00}${top_mem name 1}${alignr}${top_mem mem 1}%
+${color 11ff11}${top_mem name 2}${alignr}${top_mem mem 2}%
+${color 22ee22}${top_mem name 3}${alignr}${top_mem mem 3}%
+${color 33dd33}${top_mem name 4}${alignr}${top_mem mem 4}%
+${color 44cc44}${top_mem name 5}${alignr}${top_mem mem 5}%
+${color 55bb55}${top_mem name 6}${alignr}${top_mem mem 6}%
+${color 66aa66}${top_mem name 7}${alignr}${top_mem mem 7}%
+${color 779977}${top_mem name 8}${alignr}${top_mem mem 8}%
+${color 888888}${top_mem name 9}${alignr}${top_mem mem 9}%
+${voffset 0}${memgraph 444444 00ff00 -t}
+#######Showing diskgraph usage - read and write
+${color6}${voffset 0}MEDIA ${if_existing /dev/sdb1}${color6}(sdb1)${endif}${if_existing /dev/sdb2}${color6}(sdb2)${endif}${if_existing /dev/sdb3}${color6}(sdb3)${endif}${if_existing /dev/sdc1}${color6}(sdc1)${endif}${if_existing /dev/sdc2}${color6}(sdc2)${endif}${if_existing /dev/sdc3}${color6}(sdc3)${endif}${color6}${hr 1}
+${color6}root ${color6}${fs_used_perc /}%      ${alignc}${color1}${fs_used /}  ${alignr}${color3}(${fs_free /})      ${color6}${fs_size /}
+${voffset -5}${color6}${fs_bar 3 /}
+${color6}home ${color6}${fs_used_perc /home}%    ${alignc}${color1}${fs_used /home}  ${alignr}${color3}(${fs_free /home})      ${color6}${fs_size /home}
+${voffset -5}${color6}${fs_bar 3 /home}
+${color6}data ${color6}${fs_used_perc /data}%      ${alignc}${color1}${fs_used /data}  ${alignr}${color3}(${fs_free /data})      ${color6}${fs_size /data}
+${voffset -5}${color6}${fs_bar 3 /data}
+${diskiograph_read 20,140 888888 ffff00 -t}
+${voffset -10}${color6}     IO read: ${color1}${diskio_read}${color3}
+${offset 150}${voffset -40}${diskiograph_write 20,140 888888 ffff00 -t}
+${voffset -10}${color6}${offset 150}     IO write: ${color1}${diskio_write}${color3}
+#######Showing enp7s1 usage
+${if_existing /proc/net/route enp7s1} 
+${color7}@enp7s1 ${color7}(connections:${color7}${tcp_portmon 1 65535 count} ${color7}In:${color7}${tcp_portmon 1 32767 count}${color7} Out:${color7}${tcp_portmon 32768 61000 count}) ${color7}${hr 1}
+${downspeedgraph enp7s1 30,140 888888 ff0000 5000 -t}
+${voffset -10}${color7}     Down: $color1${downspeed enp7s1}${color3}
+${color7}Total Down: ${color1}${totaldown enp7s1}${color3}
+${offset 150}${voffset -64}${upspeedgraph enp7s1 30,140 888888 ffff00 5000 -t}
+${voffset -10}${offset 150}     ${color7}Up: ${color1}${upspeed enp7s1}${color3}
+${offset 150}${color7}Total Up: ${color1}${totalup enp7s1}${color3}${endif}
+${image ~/.conky/antimagia.png -s 200x200 -p 47,577}
+${image ~/.conky/desimpregnador.png -s 200x200 -p 50,350}
+${image ~/.conky/cruzcosmica.png -s 200x200 -p 47,90}
+#${image ~/.conky/SCAPmini.jpg -s 90x90 -p 100,850}
+#${image ~/.conky/luxor.jpg -s 295x80 -p 0,960}
